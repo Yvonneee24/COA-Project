@@ -1,0 +1,193 @@
+TITLE Lab xxx 	(main.asm)
+
+INCLUDE Irvine32.inc
+
+.data
+str1 byte "******************************************************",0
+str2 byte "1.TEA-$60 : 2.CHOCO-$70 : 3.COFFEE-$100 : 4.MOCHA-$120",0
+str3 byte "******************************************************",0
+
+str4 byte "PLEASE INPUT MONEY: ",0
+str5 byte "10$: ",0
+val1 dword ?
+val2 dword 10
+str6 byte "20$: ",0
+val3 dword ?
+val4 dword 20
+str7 byte "50$: ",0
+val5 dword ?
+val6 dword 50
+str8 byte "YOUR MONEY: ",0
+total dword ?
+str9 byte "PLEASE CHOOSE ITEM: ",0
+select dword ?
+change dword ?
+str10 byte "YOUR CHANGES IS: ",0
+str11 byte "ENJOY YOUR DRINK! ",0
+str12 byte "INSUFFICIENT BALANCE, PLEASE INSERT MORE COINS", O
+str13 byte "THANK YOU FOR USING OUR VENDING MACHINE! ",0
+
+
+
+
+.code
+main PROC
+call PROC
+call clrscr
+call GREETING1
+call MENU
+call GREETING2
+call INSERTCOINS
+call SELECTION
+call DRINK
+call BALANCE
+call FAREWELL
+
+GREETING1 PROC
+mov edx, OFFSET str1
+call writestring
+ret
+GREETING1 ENDP
+
+MENU PROC
+mov edx, OFFSET str2
+call writestring
+call crif
+ret
+MENU ENDP
+
+GREETING2 PROC
+mov edx, OFFSET str3
+call writestring
+ret
+GREETING2 ENDP
+
+INSERTCOINS PROC
+call crlf
+mov edx, OFFSET str4
+call writestring
+call crlf
+
+mov edx, OFFSET str5
+call writestring
+call readint
+mov val1, eax
+mov eax, val1
+mul val2
+mov val1, eax
+
+mov edx, OFFSET str6
+call writestring
+call readint
+mov val3, eax
+mov eax, val3
+mul val4
+mov val3, eax
+
+mov edx, OFFSET str7
+call writestring
+call readint
+mov val5, eax
+mov eax, val5
+mul val6
+mov val5, eax
+mov eax, 0
+mov eax, val1
+add eax, val3
+add eax, val5
+call crif
+mov edx, OFFSET str8
+mov eax, 0
+call writestring
+call writedec
+mov total, eax
+ret
+INSERTCOINS ENDP
+
+SELECTION PROC
+call crlf
+mov edx, OFFSET str9
+mov eax, 0
+call writestring
+call readint
+mov select, eax
+
+ret
+SELECTION ENDP
+
+DRINK PROC
+mov eax, select
+cmp eax,1
+JE TEA
+cmp eax,2
+JE CHOCO
+cmp eax,3
+JE COFFEE
+cmp eax,4
+JE MOCHA
+
+TEA:
+mov ebx, total
+sub ebx, 60
+mov change, ebx
+ret
+CHOCO:
+mov ebx, total
+sub ebx, 70
+mov change, ebx
+ret
+COFFEE:
+mov ebx, total
+sub ebx, 100
+mov change, ebx
+ret
+MOCHA:
+mov ebx, total
+sub ebx, 120
+mov change, ebx
+ret
+DRINK ENDP
+
+BALANCE PROC
+mov edx, OFFSET str10
+call crlf
+call writestring
+mov eax, change
+call writedec
+ret
+BALANCE ENDP
+
+FAREWELL PROC
+call crlf
+mov eax, change
+cmp eax,0
+jl FAILED
+JGE SUCCESS
+JMP DONE
+
+FAILED:
+call crlf
+mov edx, OFFSET str12
+call writestring
+call crlf
+mov edx, OFFEST str13
+call writestring
+ret
+
+SUCCESS:
+call crlf
+mov edx, OFFEST str11
+call writestring
+call crlf
+
+DONE:
+call crlf
+mov edx, OFFESET str13
+call writestring
+call crlf
+FAREWELL ENDP
+
+call crlf
+
+	exit
+END main
