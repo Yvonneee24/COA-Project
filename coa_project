@@ -1,4 +1,4 @@
-TITLE Lab xxx 	(main.asm)
+TITLE COA Project 	(main.asm)
 
 INCLUDE Irvine32.inc
 
@@ -24,7 +24,7 @@ select dword ?
 change dword ?
 str10 byte "YOUR CHANGES IS: ",0
 str11 byte "ENJOY YOUR DRINK! ",0
-str12 byte "INSUFFICIENT BALANCE, PLEASE INSERT MORE COINS", O
+str12 byte "INSUFFICIENT BALANCE, PLEASE INSERT MORE COINS", 0
 str13 byte "THANK YOU FOR USING OUR VENDING MACHINE! ",0
 
 
@@ -32,7 +32,6 @@ str13 byte "THANK YOU FOR USING OUR VENDING MACHINE! ",0
 
 .code
 main PROC
-call PROC
 call clrscr
 call GREETING1
 call MENU
@@ -42,6 +41,8 @@ call SELECTION
 call DRINK
 call BALANCE
 call FAREWELL
+exit
+main ENDP
 
 GREETING1 PROC
 mov edx, OFFSET str1
@@ -50,9 +51,10 @@ ret
 GREETING1 ENDP
 
 MENU PROC
+call crlf
 mov edx, OFFSET str2
 call writestring
-call crif
+call crlf
 ret
 MENU ENDP
 
@@ -76,6 +78,7 @@ mov eax, val1
 mul val2
 mov val1, eax
 
+
 mov edx, OFFSET str6
 call writestring
 call readint
@@ -95,9 +98,8 @@ mov eax, 0
 mov eax, val1
 add eax, val3
 add eax, val5
-call crif
+call crlf
 mov edx, OFFSET str8
-mov eax, 0
 call writestring
 call writedec
 mov total, eax
@@ -170,24 +172,23 @@ call crlf
 mov edx, OFFSET str12
 call writestring
 call crlf
-mov edx, OFFEST str13
+mov edx, OFFSET str13
 call writestring
 ret
 
 SUCCESS:
 call crlf
-mov edx, OFFEST str11
+mov edx, OFFSET str11
 call writestring
 call crlf
 
 DONE:
 call crlf
-mov edx, OFFESET str13
+mov edx, OFFSET str13
 call writestring
 call crlf
+exit
 FAREWELL ENDP
 
 call crlf
-
-	exit
 END main
