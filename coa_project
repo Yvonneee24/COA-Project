@@ -17,15 +17,25 @@ val4 dword 20
 str7 byte "50$: ",0
 val5 dword ?
 val6 dword 50
+val7 dword 60
+val8 dword 70
+val9 dword 100
+val10 dword 120
 str8 byte "YOUR MONEY: ",0
 total dword ?
 str9 byte "PLEASE CHOOSE ITEM: ",0
 select dword ?
+qty dword ?
 change dword ?
 str10 byte "YOUR CHANGES IS: ",0
 str11 byte "ENJOY YOUR DRINK! ",0
 str12 byte "INSUFFICIENT BALANCE, PLEASE INSERT MORE COINS", 0
 str13 byte "THANK YOU FOR USING OUR VENDING MACHINE! ",0
+str14 byte "YOU ORDERED TEA",0
+str15 byte "YOU ORDERED CHOCO",0
+str16 byte "YOU ORDERED COFFEE",0
+str17 byte "YOU ORDERED MOCHA",0
+str18 byte "QUANTITY: ",0
 
 
 
@@ -78,6 +88,7 @@ mov eax, val1
 mul val2
 mov val1, eax
 
+call crlf
 
 mov edx, OFFSET str6
 call writestring
@@ -86,6 +97,8 @@ mov val3, eax
 mov eax, val3
 mul val4
 mov val3, eax
+
+call crlf
 
 mov edx, OFFSET str7
 call writestring
@@ -129,26 +142,63 @@ cmp eax,4
 JE MOCHA
 
 TEA:
+mov edx, OFFSET str18
+call WriteString
+call ReadInt
+mov qty, eax
+mov eax, qty
+mul val7
 mov ebx, total
-sub ebx, 60
+sub ebx, eax
 mov change, ebx
+mov edx, OFFSET str14
+call WriteString
 ret
+
 CHOCO:
+mov edx, OFFSET str18
+call WriteString
+call ReadInt
+mov qty, eax
+mov eax, qty
+mul val8
 mov ebx, total
 sub ebx, 70
 mov change, ebx
+mov edx, OFFSET str15
+call WriteString
 ret
+
 COFFEE:
+mov edx, OFFSET str18
+call WriteString
+call ReadInt
+mov qty, eax
+mov eax, qty
+mul val9
 mov ebx, total
 sub ebx, 100
 mov change, ebx
+mov edx, OFFSET str16
+call WriteString
 ret
+
 MOCHA:
+mov edx, OFFSET str18
+call WriteString
+call ReadInt
+mov qty, eax
+mov eax, qty
+mul val10
 mov ebx, total
 sub ebx, 120
 mov change, ebx
+mov edx, OFFSET str17
+call WriteString
 ret
+
 DRINK ENDP
+
 
 BALANCE PROC
 mov edx, OFFSET str10
